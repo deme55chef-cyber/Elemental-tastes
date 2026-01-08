@@ -1,0 +1,11 @@
+{
+  "name": "Elemental Tastes",
+  "description": "",
+  "short_name": "Tastes",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "requestFramePermissions": []
+}

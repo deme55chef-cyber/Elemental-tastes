@@ -1,0 +1,27 @@
+
+{
+  "name": "Elemental Tastes",
+  "short_name": "Tastes",
+  "description": "Un'esperienza mindfulness sensoriale ed elementale.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/d/1irUcv-M8bgKs5ssBXAu06553hjIeg6oc",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "meditation"],
+  "screenshots": [
+    {
+      "src": "https://lh3.googleusercontent.com/d/1irUcv-M8bgKs5ssBXAu06553hjIeg6oc",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
