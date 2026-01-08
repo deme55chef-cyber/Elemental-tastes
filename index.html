@@ -36,10 +36,8 @@
             color: #ffffff;
             margin: 0;
             padding: 0;
-            /* Impedisce lo scroll elastico e il pinch-to-zoom tipico del browser */
             overscroll-behavior: none;
             overflow: hidden;
-            /* Rende l'interfaccia non selezionabile per sembrare un'app */
             user-select: none;
             -webkit-user-select: none;
             -webkit-touch-callout: none;
@@ -60,7 +58,6 @@
         .safe-top { padding-top: var(--sat); }
         .safe-bottom { padding-bottom: var(--sab); }
 
-        /* Scroll fluido ma senza barra visibile */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -79,8 +76,9 @@
 </head>
 <body>
     <div id="root"></div>
+    <!-- Punto di ingresso dell'applicazione -->
+    <script type="module" src="./index.tsx"></script>
     <script>
-      // Registrazione Service Worker per l'offline e l'installazione
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('./sw.js')
@@ -89,7 +87,6 @@
         });
       }
 
-      // Impedisce il refresh "pull-to-refresh" su Chrome/Safari mobile
       document.addEventListener('touchmove', (e) => {
         if (e.touches.length > 1) e.preventDefault();
       }, { passive: false });

@@ -103,4 +103,59 @@ const Home: React.FC<Props> = ({ progress, updateProgress }) => {
             <div className="absolute right-0 mt-14 bg-zinc-900/98 backdrop-blur-3xl border border-white/10 p-6 rounded-[2.5rem] w-[85vw] max-w-xs shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
               <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-500 mb-4 font-bold">Atmosfera Personalizzata</p>
               <input 
-                type
+                type="text"
+                value={urlValue}
+                onChange={(e) => setUrlValue(e.target.value)}
+                placeholder="ID Google Drive..."
+                className="w-full py-4 bg-black border border-white/10 rounded-2xl px-5 text-[11px] text-white focus:outline-none focus:border-white/30 mb-3"
+              />
+              <button 
+                onClick={handleUrlSubmit}
+                className="w-full py-4 bg-white text-black text-[10px] font-black uppercase rounded-2xl active:scale-95 transition-transform"
+              >
+                Applica
+              </button>
+            </div>
+          )}
+        </div>
+
+        {loadStatus === 'loading' && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4">
+            <div className="w-6 h-6 border-2 border-white/5 border-t-white/20 rounded-full animate-spin"></div>
+          </div>
+        )}
+      </div>
+
+      {/* Navigazione */}
+      <div className="flex-1 px-8 py-10 flex flex-col justify-end space-y-4">
+        <button 
+          onClick={() => navigate('/episodes')}
+          className="w-full h-24 bg-zinc-900/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] flex items-center justify-between px-10 active:scale-95 transition-all group"
+        >
+          <div className="text-left">
+            <h3 className="text-2xl font-serif italic text-white group-active:translate-x-1 transition-transform">Episodi</h3>
+            <p className="text-[8px] uppercase tracking-widest text-white/20 mt-1">Esplora i sensi</p>
+          </div>
+          <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20">→</div>
+        </button>
+
+        <button 
+          onClick={() => navigate('/games')}
+          className="w-full h-24 bg-zinc-900/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] flex items-center justify-between px-10 active:scale-95 transition-all group"
+        >
+          <div className="text-left">
+            <h3 className="text-2xl font-serif italic text-white group-active:translate-x-1 transition-transform">Mettiti in gioco</h3>
+            <p className="text-[8px] uppercase tracking-widest text-white/20 mt-1">Test sensoriali</p>
+          </div>
+          <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20">→</div>
+        </button>
+      </div>
+
+      <div className="pb-8 text-center opacity-10">
+        <p className="text-[7px] uppercase tracking-[1em]">Elemental Tastes</p>
+      </div>
+    </div>
+  );
+};
+
+export default Home;

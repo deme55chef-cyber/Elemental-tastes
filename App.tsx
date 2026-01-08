@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import Home from './views/Home';
-import Episodes from './views/Episodes';
-import EpisodeDetail from './views/EpisodeDetail';
-import Games from './views/Games';
-import GameView from './views/GameView';
-import { Progress } from './types';
+import Home from './views/Home.tsx';
+import Episodes from './views/Episodes.tsx';
+import EpisodeDetail from './views/EpisodeDetail.tsx';
+import Games from './views/Games.tsx';
+import GameView from './views/GameView.tsx';
+import { Progress } from './types.ts';
 
 const App: React.FC = () => {
   const [progress, setProgress] = useState<Progress>(() => {
