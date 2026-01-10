@@ -106,9 +106,10 @@ const GameView: React.FC<Props> = ({ updateProgress, progress }) => {
   const handlePhaseTap = () => {
     if (victoryPhase === 'intermediate') {
       setVictoryPhase('flash');
+      // Il flash dura un po' di più per l'effetto scenografico
       setTimeout(() => {
         setVictoryPhase('final');
-      }, 300); // Durata del flash bianco
+      }, 600); 
     }
   };
 
@@ -177,14 +178,23 @@ const GameView: React.FC<Props> = ({ updateProgress, progress }) => {
         {!isWon && <p className="mt-12 text-[7px] uppercase tracking-[0.3em] text-white/10 animate-pulse text-center">Ricomponi il sigillo</p>}
       </div>
 
-      {/* Help Overlay (Solution) */}
+      {/* Help Overlay (Solution) - Migliorato per visibilità intera */}
       {showHelp && !isWon && (
         <div 
-          className="absolute inset-0 z-40 bg-black/90 flex flex-col items-center justify-center p-8 animate-in fade-in duration-300"
+          className="absolute inset-0 z-40 bg-black/95 flex flex-col items-center justify-center p-6 animate-in fade-in duration-300"
           onClick={toggleHelp}
         >
-          <img src={RUNE_IMAGE_URL} className="w-full max-w-[320px] aspect-square object-cover border border-white/20" alt="Soluzione" />
-          <p className="mt-12 text-[8px] uppercase tracking-[0.4em] text-white/40">Tocca per tornare</p>
+          <div className="relative w-full h-full flex flex-col items-center justify-center gap-8">
+            <img 
+              src={RUNE_IMAGE_URL} 
+              className="max-w-full max-h-[65vh] object-contain border border-white/10 shadow-[0_0_50px_rgba(34,211,238,0.15)]" 
+              alt="Soluzione" 
+            />
+            <div className="text-center">
+              <p className="text-[9px] uppercase tracking-[0.6em] text-cyan-400/60 mb-2">Sigillo Originale</p>
+              <p className="text-[7px] uppercase tracking-[0.3em] text-white/20">Tocca per tornare al laboratorio</p>
+            </div>
+          </div>
         </div>
       )}
 
@@ -197,7 +207,7 @@ const GameView: React.FC<Props> = ({ updateProgress, progress }) => {
             <div className="absolute inset-0 z-[65] animate-in fade-in duration-500 bg-black flex flex-col">
               {/* Scritta blu lampeggiante sopra la GIF */}
               <div className="absolute top-[15%] left-0 right-0 text-center z-10">
-                <h2 className="text-[14px] sm:text-[18px] uppercase tracking-[0.8em] text-cyan-400 font-bold animate-pulse brightness-150">
+                <h2 className="text-[14px] sm:text-[18px] uppercase tracking-[0.8em] text-cyan-400 font-bold animate-pulse brightness-150 drop-shadow-[0_0_15px_rgba(34,211,238,0.8)]">
                   Sigillo Attivato
                 </h2>
               </div>
@@ -212,9 +222,14 @@ const GameView: React.FC<Props> = ({ updateProgress, progress }) => {
             </div>
           )}
 
-          {/* 2. Flash */}
+          {/* 2. Scenic Flash */}
           {victoryPhase === 'flash' && (
-            <div className="absolute inset-0 bg-white z-[60] animate-in fade-in duration-100"></div>
+            <div className="absolute inset-0 z-[60] flex items-center justify-center overflow-hidden">
+              {/* Sfondo bianco che si espande */}
+              <div className="absolute inset-0 bg-white animate-scenic-flash"></div>
+              {/* Bagliore centrale radiale */}
+              <div className="absolute w-[200%] h-[200%] bg-[radial-gradient(circle,white_0%,transparent_70%)] animate-flash-burst opacity-0"></div>
+            </div>
           )}
 
           {/* 3. Final Image (Static + Button) */}
@@ -245,6 +260,27 @@ const GameView: React.FC<Props> = ({ updateProgress, progress }) => {
 
       <style>{`
         .grid > div { aspect-ratio: 1 / 1; }
+        
+        @keyframes scenic-flash {
+          0% { opacity: 0; transform: scale(0.5); }
+          20% { opacity: 1; transform: scale(1.1); }
+          80% { opacity: 1; transform: scale(1); }
+          100% { opacity: 0; transform: scale(1.5); }
+        }
+
+        @keyframes flash-burst {
+          0% { opacity: 0; transform: scale(0.1); }
+          50% { opacity: 1; transform: scale(1.2); }
+          100% { opacity: 0; transform: scale(2); }
+        }
+
+        .animate-scenic-flash {
+          animation: scenic-flash 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        .animate-flash-burst {
+          animation: flash-burst 0.5s ease-out forwards;
+        }
       `}</style>
     </div>
   );
