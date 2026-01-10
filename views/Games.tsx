@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GAMES } from '../constants';
 import { Progress } from '../types';
 
 interface Props {
@@ -12,34 +11,41 @@ const Games: React.FC<Props> = ({ progress }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="h-full flex flex-col bg-[#000000]">
-      <div className="safe-top p-6 flex items-center gap-4">
-        <button onClick={() => navigate('/')} className="p-2 -ml-2 text-2xl text-white">←</button>
-        <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-400">Test Sensoriali</h2>
+    <div className="h-full flex flex-col bg-black overflow-hidden select-none font-sans">
+      {/* Navbar ultra-sottile */}
+      <div className="p-4 flex items-center">
+        <button 
+          onClick={() => navigate('/')} 
+          className="w-8 h-8 flex items-center justify-center active:scale-90 transition-transform"
+        >
+          <span className="text-xl text-white/50">←</span>
+        </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-6 pb-24 space-y-4">
-        {GAMES.map((game) => (
+      <div className="flex-1 px-8 pt-4 flex flex-col justify-center">
+        <div className="space-y-6">
+          
+          <h2 className="text-[10px] uppercase tracking-[0.5em] text-white/20 font-bold text-center">Laboratorio</h2>
+
+          {/* Box L'ultimo ingresso */}
           <button 
-            key={game.id}
-            onClick={() => navigate(`/games/${game.id}`)}
-            className="w-full p-6 bg-zinc-950 border border-white/10 rounded-3xl flex items-center gap-6 active:scale-[0.98] transition-all shadow-lg"
+            onClick={() => navigate('/games/rune-puzzle')}
+            className="relative w-full overflow-hidden bg-zinc-900/20 border border-white/5 rounded-3xl active:scale-[0.98] transition-all group aspect-[2/1] flex flex-col items-center justify-center"
           >
-            <div className={`w-16 h-16 ${game.color} rounded-2xl flex items-center justify-center text-3xl shadow-xl`}>
-              {game.icon}
-            </div>
-            <div className="text-left flex-1">
-              <h3 className="text-xl font-bold mb-1 text-white">{game.title}</h3>
-              <p className="text-[10px] text-zinc-500 uppercase tracking-widest">{game.description}</p>
-              {progress.highScores[game.id] !== undefined && (
-                <div className="flex items-center gap-2 mt-2">
-                  <div className="h-[1px] flex-1 bg-white/10"></div>
-                  <p className="text-[9px] text-zinc-400 font-bold uppercase tracking-tighter">Record: {progress.highScores[game.id]}</p>
-                </div>
-              )}
-            </div>
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/5 to-transparent"></div>
+            
+            <h4 className="text-lg font-serif italic text-white/80 z-10">L'ultimo ingresso</h4>
+            <div className="mt-2 w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_#22d3ee] animate-pulse z-10"></div>
+            
+            <span className="mt-4 text-[7px] uppercase tracking-[0.4em] text-white/30 font-bold z-10">Sfida Runica</span>
           </button>
-        ))}
+
+          <p className="text-[7px] text-center text-white/10 uppercase tracking-[0.2em]">Sblocca la memoria antica</p>
+        </div>
+      </div>
+
+      <div className="pb-8 flex justify-center opacity-5">
+        <span className="text-[5px] uppercase tracking-[0.6em] text-white">Elemental Lab</span>
       </div>
     </div>
   );

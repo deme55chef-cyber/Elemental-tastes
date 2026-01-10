@@ -6,15 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Elemental Tastes</title>
     
-    <!-- PWA Primary Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
     <meta name="mobile-web-app-capable" content="yes">
-    
-    <!-- iOS Specific Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Tastes">
     <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1irUcv-M8bgKs5ssBXAu06553hjIeg6oc">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,13 +36,9 @@
             overflow: hidden;
             user-select: none;
             -webkit-user-select: none;
-            -webkit-touch-callout: none;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        h1, h2, .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
+        h1, h2, .font-serif { font-family: 'Playfair Display', serif; }
 
         #root {
             height: 100vh;
@@ -55,11 +47,16 @@
             flex-direction: column;
         }
 
-        .safe-top { padding-top: var(--sat); }
-        .safe-bottom { padding-bottom: var(--sab); }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        #emergency-loader {
+            position: fixed;
+            inset: 0;
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
     </style>
 
     <script type="importmap">
@@ -75,21 +72,35 @@
     </script>
 </head>
 <body>
+    <div id="emergency-loader">
+        <div class="text-center">
+            <div class="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
+            <p class="text-[8px] uppercase tracking-[0.4em] text-white/40">Elemental Tastes</p>
+        </div>
+    </div>
+
     <div id="root"></div>
-    <!-- Punto di ingresso dell'applicazione -->
+
+    <script type="module">
+        // Rimuoviamo il loader una volta che l'app è pronta
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('emergency-loader');
+            if(loader) {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 500);
+                }, 1000);
+            }
+        });
+    </script>
     <script type="module" src="./index.tsx"></script>
+    
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('WebApp: Service Worker Attivo'))
-            .catch(err => console.log('WebApp: Errore SW', err));
+          navigator.serviceWorker.register('./sw.js').catch(console.error);
         });
       }
-
-      document.addEventListener('touchmove', (e) => {
-        if (e.touches.length > 1) e.preventDefault();
-      }, { passive: false });
     </script>
 </body>
 </html>

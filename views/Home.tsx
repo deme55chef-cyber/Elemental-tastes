@@ -11,8 +11,6 @@ interface Props {
 const Home: React.FC<Props> = ({ progress, updateProgress }) => {
   const navigate = useNavigate();
   
-  const [showUrlInput, setShowUrlInput] = useState(false);
-  const [urlValue, setUrlValue] = useState('');
   const [loadStatus, setLoadStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [currentTry, setCurrentTry] = useState(0);
 
@@ -30,16 +28,6 @@ const Home: React.FC<Props> = ({ progress, updateProgress }) => {
 
   const links = getLinks(currentId);
   const mediaSource = links[currentTry];
-
-  const handleUrlSubmit = () => {
-    if (urlValue.trim()) {
-      updateProgress({ customVideo: urlValue.trim() });
-      setShowUrlInput(false);
-      setUrlValue('');
-      setLoadStatus('loading');
-      setCurrentTry(0);
-    }
-  };
 
   const handleError = () => {
     if (currentTry < links.length - 1) {
@@ -70,53 +58,27 @@ const Home: React.FC<Props> = ({ progress, updateProgress }) => {
     <div className="flex flex-col h-full bg-black overflow-hidden font-sans select-none animate-in fade-in duration-1000">
       
       {/* AREA VISIVA */}
-      <div className="relative w-full h-[65vh] shrink-0 bg-black overflow-hidden">
+      <div className="relative w-full h-[55%] shrink-0 bg-black overflow-hidden">
         
         <img 
           key={mediaSource}
           src={mediaSource} 
           onLoad={() => setLoadStatus('success')}
           onError={handleError}
-          className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${loadStatus === 'success' ? 'opacity-80' : 'opacity-0'}`}
+          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 ${loadStatus === 'success' ? 'opacity-70' : 'opacity-0'}`}
           alt=""
         />
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black pointer-events-none"></div>
 
         {/* Pulsanti di Controllo */}
-        <div className="absolute top-12 right-6 z-50 flex flex-col gap-4">
+        <div className="absolute top-10 right-6 z-50 flex flex-col gap-4">
           <button 
             onClick={handleShare}
             className="w-10 h-10 rounded-full backdrop-blur-xl border border-white/5 bg-black/40 flex items-center justify-center active:scale-90 transition-all"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
           </button>
-
-          <button 
-            onClick={() => setShowUrlInput(!showUrlInput)}
-            className={`w-10 h-10 rounded-full backdrop-blur-xl border transition-all duration-300 flex items-center justify-center ${showUrlInput ? 'bg-white border-white rotate-45 shadow-[0_0_20px_rgba(255,255,255,0.4)]' : 'bg-black/40 border-white/5'}`}
-          >
-            <span className={`text-xl font-light ${showUrlInput ? 'text-black' : 'text-white/40'}`}>+</span>
-          </button>
-
-          {showUrlInput && (
-            <div className="absolute right-0 mt-14 bg-zinc-900/98 backdrop-blur-3xl border border-white/10 p-6 rounded-[2.5rem] w-[85vw] max-w-xs shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
-              <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-500 mb-4 font-bold">Atmosfera Personalizzata</p>
-              <input 
-                type="text"
-                value={urlValue}
-                onChange={(e) => setUrlValue(e.target.value)}
-                placeholder="ID Google Drive..."
-                className="w-full py-4 bg-black border border-white/10 rounded-2xl px-5 text-[11px] text-white focus:outline-none focus:border-white/30 mb-3"
-              />
-              <button 
-                onClick={handleUrlSubmit}
-                className="w-full py-4 bg-white text-black text-[10px] font-black uppercase rounded-2xl active:scale-95 transition-transform"
-              >
-                Applica
-              </button>
-            </div>
-          )}
         </div>
 
         {loadStatus === 'loading' && (
@@ -126,28 +88,26 @@ const Home: React.FC<Props> = ({ progress, updateProgress }) => {
         )}
       </div>
 
-      {/* Navigazione */}
-      <div className="flex-1 px-8 py-10 flex flex-col justify-end space-y-4">
+      {/* Navigazione - Senza descrizioni secondarie */}
+      <div className="flex-1 px-8 py-6 flex flex-col justify-center space-y-4">
         <button 
           onClick={() => navigate('/episodes')}
-          className="w-full h-24 bg-zinc-900/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] flex items-center justify-between px-10 active:scale-95 transition-all group"
+          className="w-full h-16 sm:h-20 bg-zinc-900/40 backdrop-blur-md border border-white/5 rounded-3xl flex items-center justify-between px-8 active:scale-95 transition-all group"
         >
           <div className="text-left">
-            <h3 className="text-2xl font-serif italic text-white group-active:translate-x-1 transition-transform">Episodi</h3>
-            <p className="text-[8px] uppercase tracking-widest text-white/20 mt-1">Esplora i sensi</p>
+            <h3 className="text-lg sm:text-xl font-serif italic text-white group-active:translate-x-1 transition-transform">Episodi</h3>
           </div>
-          <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20">→</div>
+          <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 text-xs">→</div>
         </button>
 
         <button 
           onClick={() => navigate('/games')}
-          className="w-full h-24 bg-zinc-900/40 backdrop-blur-md border border-white/5 rounded-[2.5rem] flex items-center justify-between px-10 active:scale-95 transition-all group"
+          className="w-full h-16 sm:h-20 bg-zinc-900/40 backdrop-blur-md border border-white/5 rounded-3xl flex items-center justify-between px-8 active:scale-95 transition-all group"
         >
           <div className="text-left">
-            <h3 className="text-2xl font-serif italic text-white group-active:translate-x-1 transition-transform">Mettiti in gioco</h3>
-            <p className="text-[8px] uppercase tracking-widest text-white/20 mt-1">Test sensoriali</p>
+            <h3 className="text-lg sm:text-xl font-serif italic text-white group-active:translate-x-1 transition-transform">Mettiti in gioco</h3>
           </div>
-          <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/20">→</div>
+          <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/20 text-xs">→</div>
         </button>
       </div>
 

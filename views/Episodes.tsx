@@ -15,13 +15,11 @@ const Episodes: React.FC<Props> = ({ progress, updateProgress }) => {
   const youtubeVideoId = "I_8Msf8zxZw";
   const youtubeUrl = `https://www.youtube.com/watch?v=${youtubeVideoId}`;
 
-  // Recupera il progresso (0-100)
   const currentProgress = progress.episodeProgress[MAYA_VIDEO_ID] || 0;
   const isCompleted = currentProgress >= 100;
 
   const handleOpenYouTube = () => {
     window.open(youtubeUrl, '_blank');
-    // Se è la prima volta, iniziamo il progresso al 10%
     if (currentProgress === 0) {
       updateProgress({
         episodeProgress: { ...progress.episodeProgress, [MAYA_VIDEO_ID]: 10 }
@@ -41,93 +39,87 @@ const Episodes: React.FC<Props> = ({ progress, updateProgress }) => {
 
   return (
     <div className="h-full flex flex-col bg-black overflow-hidden select-none font-sans">
-      {/* Navbar */}
-      <div className="safe-top p-8 flex items-center justify-between z-30">
+      {/* Navbar ultra-slim */}
+      <div className="p-4 pb-2 flex items-center justify-between z-30">
         <button 
           onClick={() => navigate('/')} 
-          className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center active:scale-90 transition-transform"
+          className="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center active:scale-90 transition-transform"
         >
-          <span className="text-2xl text-zinc-400">←</span>
+          <span className="text-sm text-zinc-400">←</span>
         </button>
+        <span className="text-[8px] uppercase tracking-[0.2em] text-white/20 font-bold">Archivio</span>
       </div>
 
-      <div className="flex-1 flex flex-col justify-center px-8 pb-20">
-        <div className="relative">
-          {/* Box Episodio - Margine superiore per compensare la rimozione del titolo */}
-          <div className="relative w-full aspect-[4/5] rounded-[3rem] overflow-hidden bg-zinc-900 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] group">
+      <div className="flex-1 px-5 pt-2">
+        <div className="space-y-3">
+          
+          {/* Rettangolo Episodio compattato della metà */}
+          <div className="relative w-full overflow-hidden bg-zinc-900/40 border border-white/5 rounded-2xl">
             
-            {/* Immagine di anteprima che apre YouTube */}
+            {/* Header compatto: Titolo e Play */}
             <div 
               onClick={handleOpenYouTube}
-              className="absolute inset-0 cursor-pointer"
+              className="relative w-full h-12 cursor-pointer group flex items-center px-5"
             >
-              <img 
-                src={`https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`}
-                alt="Maya"
-                className="absolute inset-0 w-full h-full object-cover opacity-80 active:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+              <div className="absolute inset-0 opacity-10 bg-white/5 group-active:bg-white/10 transition-colors"></div>
+              <h4 className="text-sm font-serif italic text-white/90">Ep 1: Maya</h4>
               
-              <div className="absolute inset-0 flex flex-col items-center justify-end pb-24 space-y-6">
-                <div className="w-20 h-20 rounded-full bg-white shadow-2xl flex items-center justify-center active:scale-110 transition-all duration-500">
-                  <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-black border-b-[10px] border-b-transparent ml-1"></div>
-                </div>
-                
-                <div className="text-center px-4">
-                  <h4 className="text-3xl font-serif italic text-white tracking-wide drop-shadow-lg">Ep 1: Maya</h4>
-                  <p className="text-[9px] uppercase tracking-[0.3em] text-white/60 mt-2">Guarda su YouTube</p>
-                </div>
+              <div className="ml-auto w-6 h-6 rounded-full border border-white/10 flex items-center justify-center bg-white/5">
+                 <div className="w-0 h-0 border-t-[2.5px] border-t-transparent border-l-[5px] border-l-white/60 border-b-[2.5px] border-b-transparent ml-0.5"></div>
               </div>
             </div>
 
-            {/* Badge Percentuale */}
-            {currentProgress > 0 && (
-              <div className="absolute top-8 right-8 px-5 py-2 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-full flex items-center gap-2 shadow-2xl z-20 pointer-events-none">
-                <div className={`w-2 h-2 rounded-full ${isCompleted ? 'bg-green-400' : 'bg-orange-400'}`}></div>
-                <span className="text-[10px] font-black text-white uppercase tracking-widest">
-                  {isCompleted ? 'Completato' : `${currentProgress}%`}
-                </span>
-              </div>
-            )}
-
-            {/* Controllo Progresso Manuale */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black to-transparent pt-12">
-               <div className="flex flex-col gap-3">
-                 <div className="flex justify-between items-center px-1">
-                    <span className="text-[8px] uppercase tracking-widest text-white/40 font-bold">Progresso Visione</span>
-                    <span className="text-[8px] text-white/60 font-mono">{currentProgress}%</span>
+            {/* Progresso minimale (Sottile linea e percentuale) */}
+            <div className="px-5 pb-3 pt-1">
+               <div className="flex flex-col gap-2">
+                 <div className="flex justify-between items-center h-2">
+                    <span className="text-[7px] uppercase tracking-widest text-white/20">Progresso</span>
+                    <span className="text-[9px] font-mono text-white/40">{currentProgress}%</span>
                  </div>
-                 <input 
-                    type="range" 
-                    min="0" 
-                    max="100" 
-                    value={currentProgress} 
-                    onChange={handleSliderChange}
-                    className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-white"
-                 />
+                 
+                 <div className="relative h-4 flex items-center">
+                    <input 
+                        type="range" 
+                        min="0" 
+                        max="100" 
+                        value={currentProgress} 
+                        onChange={handleSliderChange}
+                        className="w-full h-0.5 bg-white/5 rounded-full appearance-none cursor-pointer accent-white"
+                    />
+                 </div>
                </div>
             </div>
           </div>
-          
-          <div className="mt-12 flex flex-col items-center opacity-20">
-            <div className="flex gap-2 mb-4">
-              {[1,2,3].map(i => <div key={i} className={`w-1 h-1 rounded-full ${i === 1 ? 'bg-white' : 'bg-white/30'}`}></div>)}
-            </div>
-            <span className="text-[8px] uppercase tracking-[0.4em] text-white font-bold">Elemental Tastes Lab</span>
+
+          {/* Placeholder ancora più sottile */}
+          <div className="w-full h-10 rounded-2xl border border-dashed border-white/5 flex items-center justify-center">
+            <span className="text-[6px] uppercase tracking-[0.3em] text-white/10">In arrivo</span>
           </div>
+
         </div>
+      </div>
+
+      <div className="pb-4 flex flex-col items-center opacity-5">
+        <span className="text-[5px] uppercase tracking-[0.5em] text-white">Elemental Lab</span>
       </div>
 
       <style>{`
         input[type=range]::-webkit-slider-thumb {
           -webkit-appearance: none;
-          height: 16px;
-          width: 16px;
+          height: 8px;
+          width: 8px;
           border-radius: 50%;
           background: #ffffff;
-          box-shadow: 0 0 10px rgba(0,0,0,0.5);
           cursor: pointer;
-          border: 4px solid #000;
+          border: 1.5px solid #000;
+        }
+        input[type=range]::-moz-range-thumb {
+          height: 8px;
+          width: 8px;
+          border-radius: 50%;
+          background: #ffffff;
+          cursor: pointer;
+          border: 1.5px solid #000;
         }
       `}</style>
     </div>
